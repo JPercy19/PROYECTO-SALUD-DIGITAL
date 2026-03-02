@@ -34,5 +34,8 @@ Thumbs.db
 # Logs
 *.log
 
+# Base de datos SQLite generada por demo.py
+demo_salud_digital.db
+
 # Streamlit
 .streamlit/

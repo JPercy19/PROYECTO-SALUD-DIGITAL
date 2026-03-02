@@ -5,6 +5,37 @@ base de datos PostgreSQL y dashboard interactivo en Streamlit.
 
 ---
 
+## 🚀 Demo en 1 Comando (sin configuración)
+
+¿Quieres ver la aplicación funcionando **ahora mismo**, sin instalar PostgreSQL ni configurar nada?
+
+```bash
+# 1. Instalar dependencias (solo la primera vez)
+pip install -r requirements.txt
+
+# 2. Iniciar todo con un solo comando
+python demo.py
+```
+
+Eso es todo. El script:
+- ✅ Crea una base de datos SQLite local automáticamente
+- ✅ Genera las claves de encriptación
+- ✅ Carga 4 pacientes con datos clínicos de ejemplo
+- ✅ Inicia el backend en `http://localhost:5000`
+- ✅ Inicia el frontend en **`http://localhost:8501`** (se abre en tu navegador)
+- ✅ Muestra las credenciales de acceso en pantalla
+
+Credenciales de la demo:
+
+| Campo            | Valor               |
+|------------------|---------------------|
+| X-Access-Key     | `demo-access-key`   |
+| X-Permission-Key | `demo-permission-key` |
+
+> **Para detener:** Ctrl + C en la terminal.
+
+---
+
 ## 📋 Tabla de Contenidos
 
 - [Estructura del Proyecto](#estructura-del-proyecto)
