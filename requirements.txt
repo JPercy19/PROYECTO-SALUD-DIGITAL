@@ -13,7 +13,7 @@ psycopg2-binary==2.9.9
 sqlalchemy==2.0.36
 
 # --- Seguridad y encriptación ---
-cryptography==43.0.3
+cryptography==46.0.5
 python-dotenv==1.0.1
 
 # --- Validación ---
