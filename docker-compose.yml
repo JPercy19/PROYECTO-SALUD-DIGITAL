@@ -1,0 +1,74 @@
+version: "3.9"
+
+# ============================================================
+# docker-compose.yml - Desarrollo local con Docker
+#
+# Uso:
+#   docker-compose up -d          # Iniciar todos los servicios
+#   docker-compose down           # Detener y eliminar contenedores
+#   docker-compose logs backend   # Ver logs del backend
+# ============================================================
+
+services:
+
+  # ----------------------------------------------------------
+  # PostgreSQL - Base de datos
+  # ----------------------------------------------------------
+  db:
+    image: postgres:16-alpine
+    container_name: salud_digital_db
+    environment:
+      POSTGRES_USER:     ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB:       ${POSTGRES_DB:-salud_digital}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ----------------------------------------------------------
+  # Backend - API Flask
+  # ----------------------------------------------------------
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: salud_digital_backend
+    environment:
+      DATABASE_URL:       postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-salud_digital}
+      ENCRYPTION_KEY:     ${ENCRYPTION_KEY}
+      ADMIN_ACCESS_KEY:   ${ADMIN_ACCESS_KEY:-admin-access-key-cambiar}
+      ADMIN_PERMISSION_KEY: ${ADMIN_PERMISSION_KEY:-admin-permission-key-cambiar}
+      FLASK_ENV:          ${FLASK_ENV:-development}
+      FLASK_SECRET_KEY:   ${FLASK_SECRET_KEY:-clave-dev}
+    ports:
+      - "5000:5000"
+    depends_on:
+      db:
+        condition: service_healthy
+    command: python backend/app.py
+
+  # ----------------------------------------------------------
+  # Frontend - Streamlit
+  # ----------------------------------------------------------
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: salud_digital_frontend
+    environment:
+      BACKEND_URL: http://backend:5000
+    ports:
+      - "8501:8501"
+    depends_on:
+      - backend
+    command: streamlit run frontend/app.py --server.port=8501 --server.address=0.0.0.0
+
+volumes:
+  postgres_data:
