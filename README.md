@@ -5,6 +5,15 @@ base de datos PostgreSQL y dashboard interactivo en Streamlit.
 
 ---
 
+## 📖 ¿Nuevo en el proyecto? Lee primero esto
+
+👉 **[COMO_EMPEZAR.md](./COMO_EMPEZAR.md)** — Guía completa paso a paso:
+qué instalar, cómo configurar el `.env`, cómo arrancar el backend y el frontend,
+y solución a los problemas más frecuentes. Tres opciones: demo rápida, instalación
+local con PostgreSQL, y Docker.
+
+---
+
 ## 🚀 Demo en 1 Comando (sin configuración)
 
 ¿Quieres ver la aplicación funcionando **ahora mismo**, sin instalar PostgreSQL ni configurar nada?
